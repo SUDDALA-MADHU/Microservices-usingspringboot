@@ -1,0 +1,183 @@
+<nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+
+    <a class="navbar-brand" [routerLink]="root"><img src="assets/shop.jpg" alt="shop Img" width="40" height="35"></a>
+    <a class="navbar-brand" [routerLink]="root" class="navbar-nav mb-lg-0"><h2 style="text-decoration: none;"><b style="color:white;text-decoration: none;">Home Bazzar</b></h2></a>
+
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
+            aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbarNav">
+
+        
+        <div class="navbar-nav" *ngIf="!currentUser || currentUser.role == Role.Customer">   
+            <form>
+                <label>
+                    <!-- <a routerLink="/category/{{get_category}}"> -->
+                        <h4>
+                            <input type = "text" name="search" [(ngModel)]="searchText" id="fsearch" 
+                            placeholder =" What are you looking for...?"/>
+                        </h4>
+                    <!-- </a> -->
+                </label>
+                <label class="btn" type="button">
+                    <a routerLink="/category/{{get_category}}">
+                        <h4 id="bsearch" (click)="equalToNum()">Search</h4>
+                    </a>
+                </label>
+            </form>
+        </div>
+
+
+        <div *ngFor="let cats of categories | filter:searchText">
+            
+        </div>
+     
+        <div class="navbar-nav ml-auto">
+            <a *ngIf="!currentUser || currentUser.role == Role.Customer"
+                    class="nav-item nav-link"><h3><input type="button" [value]="b_name" (click)="toggle1()" id="toggle"></h3></a>
+            <a *ngIf="!currentUser || currentUser.role == Role.Customer"
+                    class="nav-item nav-link " routerLink="/cart"><h3><i class="fas fa-cart-plus"></i>Cart</h3></a>
+            <a *ngIf="!currentUser || currentUser.role == Role.Customer"
+                    class="nav-item nav-link " routerLink="/wishlist"><h3><i class="fa fa-heart"></i>Wishlist</h3></a>
+
+            <div class="navbar-nav" *ngIf="currentUser && currentUser.role == Role.Manager">
+                <a class="nav-item nav-link"  routerLink="/discount"><h3><i class="fa fa-tags"></i>Discount</h3></a>
+                <a class="nav-item nav-link" (click)=getUsers() routerLink="/admin/user"><h3><i class="fa fa-users"></i> Users</h3></a>
+                <a class="nav-item nav-link" routerLink="/seller/product"><h3><i class="fa fa-database"></i> Stocks</h3></a>
+            </div>
+
+            <ng-container *ngIf="currentUser; else noUser">
+               <!-- <a class="nav-item nav-link"  routerLink="/discount">Discount</a>
+                <a class="nav-item nav-link" (click)=getUsers() routerLink="/admin/user">Users</a>
+                <a class="nav-item nav-link" routerLink="/seller/product">Stocks</a> -->
+                <a class="nav-item nav-link " routerLink="/order"><h3><i class="fas fa-list-ul"></i> Orders</h3></a>
+                <a class="nav-item nav-link " routerLink="/profile"><h3><i style="color:lightcoral;" class='fas fa-user-check'></i><b style="color:lightcoral;">Profile</b></h3></a>
+                <a class="nav-item nav-link " (click)="logout()" routerLink="/login" [queryParams]="{logout: true}"><h3><i class="fa fa-power-off" style="font-size:16px;color:white;"></i>Log Out</h3></a>
+            </ng-container>
+
+            <ng-template #noUser>
+                <a class="nav-item nav-link" data-bs-toggle="modal" data-bs-target="#exampleModal" routerLink="/login">
+                    <h3>Log In</h3>
+                </a>
+
+                <a class="nav-item nav-link " routerLink="/register"><h3>Register</h3></a>
+            </ng-template>
+        
+        </div>
+
+
+    </div>
+    
+</nav>
+
+<!-------------------------------------------------------------------------------------------------->
+
+
+<div *ngIf="flag1">
+
+            <nav class="navbar navbar-expand-lg navbar-dark" style="background-color:rgb(255, 255, 255);">
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
+                        aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarNav">
+                
+                    <div class="navbar-nav" *ngIf="!currentUser || currentUser.role == Role.Customer">
+                        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+
+                        <!-- <form>
+                            <li class="nav-item nav-link" style="margin-left:1%;">
+                                <a routerLink="/category/{{cats.id}}">
+                                        <label>{{cats.name}}</label>
+                                </a>
+                            </li>
+                        </form> -->
+                            <li class="nav-item nav-link" style="margin-left:1%;">
+                                <a routerLink="category/0">
+                                    <img src="https://media.baamboozle.com/uploads/images/418002/1636735524_34057_url.jpeg" alt="Tables & Chairs Image" class="nvimg">
+                                    <h4>Tables & Chairs</h4>
+                                </a>
+                            </li>
+                            <li class="nav-item nav-link">
+                                <a routerLink="/category/1">
+                                    <img src="https://www.kindpng.com/picc/m/197-1976945_pink-bed-clipart-hd-png-download.png" alt="Beds Image" class="nvimg">
+                                    <h4>Beds</h4>
+                                </a>
+                            </li>
+                            <li class="nav-item nav-link">
+                                <a routerLink="/category/2">
+                                    <img src="https://thumbs.dreamstime.com/b/yellow-sofa-white-background-insulated-1566119.jpg" alt="Sofas Image" class="nvimg">
+                                    <h4>Sofas</h4>
+                                </a>
+                            </li>     
+                            <li class="nav-item nav-link">
+                                <a routerLink="/category/3">
+                                    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRa8EMG3IMqBhiqH7w9WJM0hoSChi6ZUKuH7-PR-0WHL9qSVkNiJhGXXMDqyzvsQQP53P4&usqp=CAU" alt="Lighting Image" class="nvimg">
+                                    <h4>Lighting</h4>
+                                </a>
+                            </li> 
+                            <li class="nav-item nav-link">
+                                <a routerLink="/category/4">
+                                    <img src="https://i.pinimg.com/736x/32/63/e3/3263e31d03cd803eb8a25a951ad7167e.jpg" alt="Dinnerware Image" class="nvimg">
+                                    <h4>Dinnerwares</h4>
+                                </a>
+                            </li> 
+                            <li class="nav-item nav-link">
+                                <a routerLink="/category/5">
+                                    <img src="https://img.freepik.com/free-vector/clothes-wardrobe-isolated_1308-51928.jpg?w=2000" alt="Wardrobes Image" class="nvimg" style="width:65px;">
+                                    <h4>Wardrobes</h4>
+                                </a>
+                            </li>
+                            <li class="nav-item nav-link">
+                                <a routerLink="/category/6">
+                                    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRshiUmGOJnhtp1JjvBD8bF45prE7iYtKrJCs59KwLTybR7hHCDH7yIJSZZLYTIkJr3dow&usqp=CAU" alt="Planters Image" class="nvimg">
+                                    <h4>Planters</h4>
+                                </a>
+                            </li>
+                            <li class="nav-item nav-link">
+                                <a routerLink="/category/7">
+                                    <img src="https://ii2.pepperfry.com/media/catalog/product/m/u/494x544/multicolor-glass--decorative-pebbles-by--home-multicolor-glass--decorative-pebbles-by--home-3c331j.jpg" alt="Decoration Image" class="nvimg">
+                                    <h4>Decorations</h4>
+                                </a>
+                            </li>
+                            <li class="nav-item nav-link">
+                                <a routerLink="/category/8">
+                                    <img src="https://ii3.pepperfry.com/media/catalog/product/p/a/494x544/padmini-4-burner-glass-cooktop-cs-4gt-silvo-auto-padmini-4-burner-glass-cooktop-cs-4gt-silvo-auto-qnauil.jpg" alt="Cooktops Image" class="nvimg">
+                                    <h4>Cooktops</h4>
+                                </a>
+                            </li>
+                            <li class="nav-item nav-link">
+                                <a routerLink="/category/9">
+                                    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTBN3AkIeJrHy_J_cTuHWx3ICGMhFrJHJWkvcW-b1BFzmvM11D5a55uqmWTO21QEOeutmM&usqp=CAU" alt="Mirrors Image" class="nvimg">
+                                    <h4>Mirrors</h4>
+                                </a>
+                            </li>
+                            <li class="nav-item nav-link">
+                                <a routerLink="/category/10">
+                                    <img src="https://st.depositphotos.com/1043285/2798/i/950/depositphotos_27980729-stock-photo-hd-tv-with-nature-wallpaper.jpg" alt="Television Image" class="nvimg">
+                                    <h4>Televisions</h4>
+                                </a>
+                            </li>
+                            <li class="nav-item nav-link">
+                                <a routerLink="/category/11">
+                                    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS7ZXwu_taucdhiadZa6seXKeQOcy6ihc84bEzBNVlcp84LrZ_5CfF9CkzcuYyA80davTE&usqp=CAU" alt="Kids and Teens Image" class="nvimg">
+                                    <h4>Kids and Teens</h4>
+                                </a>
+                            </li>
+                            <li class="nav-item nav-link">
+                                <a routerLink="/category/12">
+                                    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR4RMjK_eqWDKLkBi8CXKCO99Cao_0mk-sSZlSBviZNaslkLw1erd2XqJF6sv8hkeUQw3E&usqp=CAU" alt="Clocks Image" class="nvimg">
+                                    <h4>Clocks</h4>
+                                </a>
+                            </li>
+
+                        </ul>
+                    </div>
+                    
+                </div>
+            </nav>
+      
+</div>
+
